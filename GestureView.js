@@ -17,6 +17,7 @@ export default class GestureView extends Component {
       onSwipeUp: PropTypes.func,
       onSwipeDown: PropTypes.func,
       onUnhandledSwipe: PropTypes.func,
+      onMoveShouldSetPanResponder: PropTypes.func,
       swipeThreshold: PropTypes.number,
       quadrantThreshold: PropTypes.number,
       style: PropTypes.any
@@ -41,6 +42,9 @@ export default class GestureView extends Component {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: (evt, gestureState) =>{
+        if (this.props.onMoveShouldSetPanResponder) {
+          this.props.onMoveShouldSetPanResponder(evt, gestureState)
+        }
         const {dx, dy} = gestureState;
         return (Math.abs(dx) > touchThreshold) || (Math.abs(dy) > touchThreshold);
       },
